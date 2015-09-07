@@ -1,0 +1,21 @@
+index page - Да се измисли какво ще съдържа лявото меню - done
+portfolio - подходящи backgrounds за трите pager-a
+products - подходящи backgrounds зад текста и снимките
+products_details - подходящи backgrounds за зад текста и снимките
+orders_add - css styles на полетата - done
+orders_addpics - css styles - done 
+contacts view - css styles на полетата - done 
+index.php - over the front picture there must be a comercial letter
+index.php 3 or 4 text pics - like questions 
+at last - fill all the form with apropriate text. erase the old 
+pictures - almost done
+
+Programing
+
+for now , only the order form is the problem . the case is that the 
+user data must not be uploaded until the whole order isnt finished.
+Issues with the date, picture managing and the path are fixed.
+
+Fix the mainnav. The current one is not compatible with all browsers
+
+manage the issue with search engines

@@ -1,0 +1,33 @@
+<?php
+require(getenv('PROJECT_PATH').'/admin/login/session_check.php');
+require(getenv('PROJECT_PATH').'/mysql/mysql.php');
+if (isset($_GET["id"])) {$id=$_GET["id"];}
+if ($_POST) 
+{
+  $id=$_POST["id"];
+  $query="update services set service_name='".$_POST["name"]."',service_description='".$_POST["description"]."' where service_id=".$id."";
+  $result=mysql_query($query);
+}
+$query1="select * from services where service_id=".$id."";
+$result1=mysql_query($query1);
+$row1=mysql_fetch_array($result1);
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+<title> Корекция на услуга </title>
+<link  rel="stylesheet" type="text/css" href="http:/daddy/css/main.css"/>
+</head>
+<body>
+<a href="http:/daddy/admin/services/services.php">Лист с услуги</a><br>
+<form name="proba" method="post" action="services_mod.php" enctype="multipart/form-data">
+Име<br>
+<input type="text" name="name" value="<?php echo $row1["service_name"];?>" maxlenght="20"><br>
+Описание<br>
+<textarea name="description" rows="5" cols="23"><?php echo $row1["service_description"]?></textarea><br>
+<input type="hidden" name="id" value="<?php echo $id;?>">
+<input type="submit" name="submit" value="Запази"><br>
+</form>
+</body>
+</html>

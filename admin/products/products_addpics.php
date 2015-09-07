@@ -1,0 +1,57 @@
+<?php
+require(getenv('PROJECT_PATH').'/admin/login/session_check.php');
+require(getenv('PROJECT_PATH').'/mysql/mysql.php');
+if (isset($_GET["id"]))
+{
+  $id=$_GET["id"];
+}
+if ($_POST)
+{
+  $id=$_POST["id"];
+  $uploaddir = getenv('PROJECT_PATH').'/pictures/';
+  $fileName = $id.'_1_'. basename($_FILES['img']['name']);
+  $uploadfile = $uploaddir . $fileName;
+  // tuk moje da se sloji validator za nalichnostta na snimka sys syshtite parametri
+  if ($_FILES['img']['name']) 
+  {
+    if (move_uploaded_file($_FILES['img']['tmp_name'], $uploadfile))
+    {
+      $query="insert into pictures values ('','".$id."','".$fileName."','1')";
+      $result=mysql_query($query);
+      echo "Снимка ".$_FILES['img']['name']." бе прикачена <br>";
+    }
+    else {echo "Picture uploading failed !<br>";}
+  }
+  else {echo "Не е избрана снимка за прикачване <br>";}
+}
+$query1="select * from pictures where product_id=".$id." and product_type=1";
+$result1=mysql_query($query1);
+$query2="select product_name from products where product_id=".$id."";
+$result2=mysql_query($query2);
+$row2=mysql_fetch_array($result2);
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+<link  rel="stylesheet" type="text/css" href="http:/daddy/css/main.css"/>
+<title> Добавяне на снимки към продукт </title>
+</head>
+<body>
+<a href="http:/daddy/admin/products/products.php">Лист с продукти</a><br>
+<form name="proba" method="post" action="products_addpics.php" enctype="multipart/form-data">
+<input type="file" name="img" value=""><br>
+<input type="submit" name="submit" value="Прикачи"><br>
+<input type="hidden" name="id" value="<?php echo $id?>"><br>
+<?php
+echo "<h4> ".$row2["product_name"]." </h4><br>";
+ while ($row1=mysql_fetch_array($result1))
+  {
+
+      echo "<img src=\"http:/daddy/pictures/".$row1["picture_name"]."\" style=\"width:180px;height:150px;margin:4px;padding:2px;border:1px solid #ccc;\"/><br>";
+      echo "<a href=\"http:/daddy/admin/products/products_delpics.php?pid=".$row1["id"]."&id=".$id."\"> Изтрий </a><br>";
+  }
+?>
+</form>
+</body>
+</html>
